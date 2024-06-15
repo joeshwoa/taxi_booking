@@ -1,10 +1,8 @@
 import 'package:country_pickers/country.dart';
-import 'package:country_pickers/country_picker_dropdown.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_formatter/formatters/phone_input_formatter.dart';
-import 'package:flutter_multi_formatter/widgets/country_dropdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taxi_booking/shared/colors.dart';
 import 'package:taxi_booking/view/components/gradient_button/gradient_button.dart';
@@ -175,7 +173,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                Expanded(
+                                                const Expanded(
                                                   flex: 1,
                                                   child: SizedBox(),
                                                 ),
@@ -193,13 +191,13 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                Expanded(
+                                                const Expanded(
                                                   flex: 1,
                                                   child: SizedBox(),
                                                 ),
                                                 Expanded(
                                                   flex: 2,
-                                                  child: Container(
+                                                  child: SizedBox(
                                                     height: double.infinity,
                                                     child: Center(
                                                       child: Text(
@@ -223,13 +221,13 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: SizedBox(),
                                             ),
                                             Expanded(
                                               flex: 2,
-                                              child: Container(
+                                              child: SizedBox(
                                                 height: double.infinity,
                                                 child: Center(
                                                   child: Text(
@@ -327,7 +325,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    suffixIcon: Icon(
+                                    suffixIcon: const Icon(
                                       Icons.mode_edit_outlined,
                                       size: 20,
                                       color: Colors.black,
@@ -393,7 +391,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
-                                      suffixIcon: Icon(
+                                      suffixIcon: const Icon(
                                         Icons.mode_edit_outlined,
                                         size: 20,
                                         color: Colors.black,
@@ -485,7 +483,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                               return null;
                                             },
                                             iconSize: 19,
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.arrow_drop_down_rounded,
                                               color: Colors.black,
                                               size: 19,
@@ -493,10 +491,8 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             sortComparator: (Country a, Country b) => a.isoCode.compareTo(b.isoCode),
                                             onValuePicked: (Country country) {
                                               setState(() {
-                                                phoneController = TextEditingController(text: country.phoneCode);
-                                                selectedCountry = countryItems.firstWhere((element) => element.phoneCode==country.phoneCode,)!;
+                                                selectedCountry = countryItems.firstWhere((element) => element.phoneCode==country.phoneCode,);
                                               });
-                                              modelView.setPhoneNumber(country.phoneCode);
                                             },
                                           ),
                                         ),
@@ -536,7 +532,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                                 ),
                                                 borderRadius: BorderRadius.circular(8),
                                               ),
-                                              suffixIcon: Icon(
+                                              suffixIcon: const Icon(
                                                 Icons.mode_edit_outlined,
                                                 size: 20,
                                                 color: Colors.black,
@@ -614,7 +610,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
-                                      suffixIcon: Icon(
+                                      suffixIcon: const Icon(
                                         Icons.mode_edit_outlined,
                                         size: 20,
                                         color: Colors.black,
@@ -633,7 +629,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                   autofillHints: const [],
                                   textInputAction: TextInputAction.done,
                                   obscureText: false,
-                                  keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                                 ),
                               ),
                             ],
@@ -891,24 +887,22 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
     );
   }
 
-  Widget _buildDropdownItem(Country country) => Container(
-    child: Row(
-      children: <Widget>[
-        Container(
-          height: 24,
-          width: 24,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: CountryPickerUtils.getDefaultFlagImage(country),
+  Widget _buildDropdownItem(Country country) => Row(
+    children: <Widget>[
+      Container(
+        height: 24,
+        width: 24,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle
         ),
-        /*SizedBox(
-          width: 8.0,
-        ),
-        Text("+${country.phoneCode}(${country.isoCode})"),*/
-      ],
-    ),
+        clipBehavior: Clip.antiAlias,
+        child: CountryPickerUtils.getDefaultFlagImage(country),
+      ),
+      /*SizedBox(
+        width: 8.0,
+      ),
+      Text("+${country.phoneCode}(${country.isoCode})"),*/
+    ],
   );
 }
 
@@ -926,9 +920,9 @@ class RPSCustomPainter extends CustomPainter {
     path_0.lineTo(size.width*0.08675174,size.height*0.3059864);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style=PaintingStyle.fill;
-    paint_0_fill.color = AppColor.scaffoldBackground.withOpacity(1.0);
-    canvas.drawPath(path_0,paint_0_fill);
+    Paint paint0Fill = Paint()..style=PaintingStyle.fill;
+    paint0Fill.color = AppColor.scaffoldBackground.withOpacity(1.0);
+    canvas.drawPath(path_0,paint0Fill);
   }
 
   @override
