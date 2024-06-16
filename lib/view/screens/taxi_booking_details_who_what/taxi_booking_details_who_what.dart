@@ -25,6 +25,9 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController roomNumberController = TextEditingController();
 
+  late FocusNode phoneFocusNode;
+  bool phoneIsFocused = false;
+
   List<String> vehicleTypes = ['car', 'van'];
   List<String> pages = ['Personal information', 'passengers', 'luggages', 'Special Luggages', 'pets'];
   String page = 'Personal information';
@@ -36,10 +39,21 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     countryItems = PhoneCodes.getAllCountryDatas();
-    selectedCountry = countryItems.first;
+    selectedCountry = countryItems.firstWhere((element) => element.countryCode == 'FR',);
+    phoneFocusNode = FocusNode();
+    phoneFocusNode.addListener(() {
+      setState(() {
+        phoneIsFocused = phoneFocusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    phoneFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -500,6 +514,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                       Expanded(
                                         child: TextFormField(
                                           controller: phoneController,
+                                          focusNode: phoneFocusNode,
                                           decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(8),
@@ -537,7 +552,8 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                                 size: 20,
                                                 color: Colors.black,
                                               ),
-                                              hintText: selectedCountry?.phoneMaskWithoutCountryCode,
+                                              prefixText: phoneIsFocused?'+${selectedCountry?.phoneCode} ':'',
+                                              hintText: phoneIsFocused?selectedCountry?.phoneMaskWithoutCountryCode:'+${selectedCountry?.phoneCode} ${selectedCountry?.phoneMaskWithoutCountryCode}',
                                               hintStyle: TextStyle(color: Colors.black.withOpacity(.3)),
                                           ),
                                           validator: (value) {
@@ -552,6 +568,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           inputFormatters: [
                                             PhoneInputFormatter(
                                               allowEndlessPhone: false,
+                                              shouldCorrectNumber: true,
                                               defaultCountryCode: selectedCountry?.countryCode,
                                             )
                                           ],
@@ -887,22 +904,14 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
     );
   }
 
-  Widget _buildDropdownItem(Country country) => Row(
-    children: <Widget>[
-      Container(
-        height: 24,
-        width: 24,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: CountryPickerUtils.getDefaultFlagImage(country),
-      ),
-      /*SizedBox(
-        width: 8.0,
-      ),
-      Text("+${country.phoneCode}(${country.isoCode})"),*/
-    ],
+  Widget _buildDropdownItem(Country country) => Container(
+    height: 24,
+    width: 24,
+    decoration: const BoxDecoration(
+      shape: BoxShape.circle
+    ),
+    clipBehavior: Clip.antiAlias,
+    child: CountryPickerUtils.getDefaultFlagImage(country),
   );
 }
 
