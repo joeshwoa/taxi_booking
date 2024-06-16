@@ -112,7 +112,7 @@ class _TaxiBookingDetailsWhereWhenState
                               Text(
                                 'Where',
                                 style: GoogleFonts.poppins(
-                                  color: Colors.black,
+                                  color: AppColor.mainFontColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -155,6 +155,19 @@ class _TaxiBookingDetailsWhereWhenState
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
+                                /*prefixIcon: Row(
+                                  children: [
+                                    SizedBox(width: 15),
+                                    CircleAvatar(
+                                      backgroundColor: AppColor.mainColor,
+                                      radius: 8,
+                                      child: CircleAvatar(
+                                        backgroundColor: AppColor.scaffoldBackground,
+                                        radius: 6,
+                                      ),
+                                    )
+                                  ],
+                                ),*/
                                 filled: true,
                                 fillColor: AppColor.textFormFieldBackground,
                                 labelText: 'Pick-up address',
@@ -215,6 +228,19 @@ class _TaxiBookingDetailsWhereWhenState
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
+                                /*prefixIcon: Row(
+                                  children: [
+                                    SizedBox(width: 15),
+                                    CircleAvatar(
+                                      backgroundColor: AppColor.mainColor,
+                                      radius: 8,
+                                      child: CircleAvatar(
+                                        backgroundColor: AppColor.scaffoldBackground,
+                                        radius: 6,
+                                      ),
+                                    )
+                                  ],
+                                ),*/
                                 filled: true,
                                 fillColor: AppColor.textFormFieldBackground,
                                 labelText: 'Drop-off address',
@@ -270,7 +296,7 @@ class _TaxiBookingDetailsWhereWhenState
                               Text(
                                 'Date & Time',
                                 style: GoogleFonts.poppins(
-                                  color: Colors.black,
+                                  color: AppColor.mainFontColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                 ),

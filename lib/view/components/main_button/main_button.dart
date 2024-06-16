@@ -28,7 +28,7 @@ class MainButton extends StatelessWidget {
           child: Text(
             text,
             style: GoogleFonts.poppins(
-              color: Colors.black,
+              color: AppColor.mainFontColor,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
