@@ -1,11 +1,12 @@
-import 'package:taxi_booking/model/taxi_booking_details/taxi_booking_details_model.dart';
-
 class TaxiBookingSummaryModel {
-  TaxiBookingDetailsModel? taxiBookingDetailsModel;
   int? totalPrice;
   String? promoCode;
   int? discount;
   bool? inVoice;
+  bool? individual;
+  String? companyName;
+  String? gender;
+  String? fullName;
 
-  TaxiBookingSummaryModel({this.taxiBookingDetailsModel, this.totalPrice, this.discount, this.inVoice, this.promoCode});
+  TaxiBookingSummaryModel({this.totalPrice, this.discount, this.inVoice, this.promoCode, this.individual, this.companyName, this.gender, this.fullName});
 }

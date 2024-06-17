@@ -6,6 +6,10 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   TaxiBookingDetailsViewModel() : super(TaxiBookingDetailsModel());
   static TaxiBookingDetailsViewModel get(BuildContext context) => BlocProvider.of<TaxiBookingDetailsViewModel>(context);
 
+  void setState (TaxiBookingDetailsModel state) {
+    emit(state);
+  }
+
   void setPickUpAddress (String address) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: address,
