@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -12,6 +11,7 @@ import 'package:taxi_booking/view/components/alert/alert.dart';
 import 'package:taxi_booking/view/components/gradient_button/gradient_button.dart';
 import 'package:taxi_booking/view/components/main_button/main_button.dart';
 import 'package:taxi_booking/view/components/summary_bottom_sheet/summary_bottom_sheet.dart';
+import 'package:taxi_booking/view/components/toast/toast.dart';
 import 'package:taxi_booking/view/screens/reject_request/reject_request.dart';
 import 'package:taxi_booking/view/screens/taxi_booking_details_where_when/taxi_booking_details_where_when.dart';
 import 'package:taxi_booking/view_model/taxi_booking_summary/taxi_booking_summary_view_model.dart';
@@ -29,11 +29,14 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
 
   TextEditingController promoCodeController = TextEditingController();
 
+  bool sending = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
         modelView = TaxiBookingSummaryViewModel();
+        modelView.updatePrice(widget.taxiBookingDetailsModel);
         return modelView;
       },
       child: BlocConsumer<TaxiBookingSummaryViewModel, TaxiBookingSummaryModel>(
@@ -323,7 +326,9 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                                             ),
                                           ),
                                           Text(
-                                            widget.taxiBookingDetailsModel.time!,
+                                            widget.taxiBookingDetailsModel.time.toString()
+                                                .split('(')[1]
+                                                .split(')')[0],
                                             style: GoogleFonts.poppins(
                                               color: AppColor.mainFontColor,
                                               fontSize: 14,
@@ -835,34 +840,53 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
-                  child: GradientButton(text: 'Send Request', onTap: () {
-                    Random random = Random();
-                    if (random.nextBool()) {
-                      showDialog(context: context, builder: (context) => AppAlert(
-                        imagePath: 'assets/images/alert_car.png',
-                        imageType: ImageType.static,
-                        title: 'Taxi Request Sent Successfully',
-                        message: 'We have received your request and will let you know when the driver has reached your pick-up point( Subject to Availability )\nThank you for choosing our service',
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        buttonText: 'Call us +33 6 44 9 1 53 10',
-                      ));
-                    } else {
-                      showDialog(context: context, builder: (context) => AppAlert(
-                        imagePath: 'assets/gif/sad_imoji.png',
-                        imageType: ImageType.gif,
-                        title: 'No car available now',
-                        message: 'We regret to inform you that there are currently no vehicles available for the requested itinerary. Please book your next transfer in advance.',
-                        onTap: () {
-                          while(Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TaxiBookingDetailsWhereWhen(),));
-                        },
-                        buttonText: 'Home Page',
-                      ));
-                    }
+                  child: GradientButton(text: 'Send Request', onTap: () async {
+                   if (state.totalPrice != null && state.totalPrice != 0 && !sending) {
+                     setState(() {
+                       sending = true;
+                     });
+
+                     bool acceptedRequest = await modelView.requestTaxi(widget.taxiBookingDetailsModel);
+
+                     if (acceptedRequest) {
+                       if (context.mounted) {
+                         showDialog(context: context, builder: (context) => AppAlert(
+                           imagePath: 'assets/images/alert_car.png',
+                           imageType: ImageType.static,
+                           title: 'Taxi Request Sent Successfully',
+                           message: 'We have received your request and will let you know when the driver has reached your pick-up point( Subject to Availability )\nThank you for choosing our service',
+                           onTap: () {
+                             Navigator.of(context).pop();
+                           },
+                           buttonText: 'Call us +33 6 44 9 1 53 10',
+                         ));
+                       }
+                     } else {
+                       if (context.mounted) {
+                         showDialog(context: context, builder: (context) => AppAlert(
+                           imagePath: 'assets/gif/sad_imoji.png',
+                           imageType: ImageType.gif,
+                           title: 'No car available now',
+                           message: 'We regret to inform you that there are currently no vehicles available for the requested itinerary. Please book your next transfer in advance.',
+                           onTap: () {
+                             while(Navigator.canPop(context)) {
+                               Navigator.pop(context);
+                             }
+                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TaxiBookingDetailsWhereWhen(),));
+                           },
+                           buttonText: 'Home Page',
+                         ));
+                       }
+                     }
+
+                     setState(() {
+                       sending = false;
+                     });
+                   } else if (state.totalPrice == null || state.totalPrice == 0) {
+                     showToast('Please wait calculate price');
+                   } else {
+                     showToast('Request is Sending Now');
+                   }
                   }),
                 ),
                 Padding(

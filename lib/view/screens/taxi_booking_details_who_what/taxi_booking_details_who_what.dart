@@ -33,7 +33,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
   late FocusNode phoneFocusNode;
   bool phoneIsFocused = false;
 
-  List<String> vehicleTypes = ['car', 'van'];
+  List<String> vehicleTypes = ['sedan', 'van'];
   List<String> pages = [
     'Personal information',
     'passengers',
@@ -188,7 +188,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                                       BorderRadius.circular(8),
                                                   border: Border.all(
                                                     color: modelView
-                                                                .getVehicleType() ==
+                                                                .state.vehicleType ==
                                                             vehicleTypes[i]
                                                         ? AppColor.mainColor
                                                         : AppColor.mainColor

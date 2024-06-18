@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 import 'package:taxi_booking/model/taxi_booking_details/taxi_booking_details_model.dart';
 import 'package:taxi_booking/shared/colors.dart';
 import 'package:taxi_booking/view/components/gradient_button/gradient_button.dart';
@@ -23,9 +25,9 @@ class _TaxiBookingDetailsWhereWhenState
   TextEditingController pickUpController = TextEditingController();
   TextEditingController dropOffController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
 
-  List<String> times = ['12:00', '00:00'];
-  List<String> methods = ['cash', 'visa'];
+  List<String> methods = ['Cash', 'Credit online'];
 
   late final TaxiBookingDetailsViewModel modelView;
 
@@ -44,6 +46,23 @@ class _TaxiBookingDetailsWhereWhenState
             .split('T')
             .first; // Update the text field
         modelView.setDate(pickedDate); // Update the model view
+      });
+    }
+  }
+
+  Future<void> selectTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        timeController.text = pickedTime
+            .toString()
+            .split('(')[1]
+            .split(')')[0]; // Update the text field
+        modelView.setTime(pickedTime); // Update the model view
       });
     }
   }
@@ -126,10 +145,13 @@ class _TaxiBookingDetailsWhereWhenState
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: TextFormField(
-                                  controller: pickUpController,
-                                  decoration: InputDecoration(
+                                const EdgeInsets.symmetric(vertical: 10),
+                                child: GooglePlaceAutoCompleteTextField(
+                                  showError: true,
+                                  boxDecoration: const BoxDecoration(),
+                                  textEditingController: pickUpController,
+                                  googleAPIKey: "AIzaSyDAqZY75SGfTJgzPNZJ_JAQSn_RrS4WWFE",
+                                  inputDecoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -161,9 +183,13 @@ class _TaxiBookingDetailsWhereWhenState
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    /*prefixIcon: Row(
+                                    prefixIconConstraints: const BoxConstraints(maxWidth: 44),
+                                    prefixIcon: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        SizedBox(width: 15),
+                                        const SizedBox(width: 15),
                                         CircleAvatar(
                                           backgroundColor: AppColor.mainColor,
                                           radius: 8,
@@ -171,40 +197,56 @@ class _TaxiBookingDetailsWhereWhenState
                                             backgroundColor: AppColor.scaffoldBackground,
                                             radius: 6,
                                           ),
-                                        )
+                                        ),
+                                        const SizedBox(width: 5),
                                       ],
-                                    ),*/
+                                    ),
                                     filled: true,
                                     fillColor: AppColor.textFormFieldBackground,
                                     labelText: 'Pick-up address',
                                   ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'please fill this field';
+                                  debounceTime: 800,
+                                  countries: const ["fr"],
+                                  isLatLngRequired: true,
+                                  getPlaceDetailWithLatLng: (Prediction prediction) async {
+                                    modelView.setPickUpAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                  },
+                                  itemClick: (Prediction prediction) {
+                                    pickUpController.text = prediction.description.toString();
+                                    pickUpController.selection = TextSelection.fromPosition(
+                                        TextPosition(offset: prediction.description!.length));
+                                    modelView.setPickUpAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                  },
+                                  itemBuilder: (context, index, Prediction prediction) {
+                                    if (prediction.types!.contains("country")) {
+                                      return const SizedBox();
                                     }
-                                    return null;
+                                    return Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.star_border, color: Colors.grey),
+                                          const SizedBox(
+                                            width: 7,
+                                          ),
+                                          Expanded(child: Text(prediction.description ?? ""))
+                                        ],
+                                      ),
+                                    );
                                   },
-                                  onChanged: (value) {
-                                    modelView.setPickUpAddress(value);
-                                  },
-                                  autofocus: false,
-                                  autofillHints: const [
-                                    AutofillHints.fullStreetAddress,
-                                    AutofillHints
-                                        .postalAddressExtendedPostalCode,
-                                    AutofillHints.addressCityAndState
-                                  ],
-                                  textInputAction: TextInputAction.next,
-                                  obscureText: false,
-                                  keyboardType: TextInputType.streetAddress,
+                                  seperatedBuilder: const Divider(),
+                                  isCrossBtnShown: true,
                                 ),
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: TextFormField(
-                                  controller: dropOffController,
-                                  decoration: InputDecoration(
+                                const EdgeInsets.symmetric(vertical: 10),
+                                child: GooglePlaceAutoCompleteTextField(
+                                  showError: true,
+                                  boxDecoration: const BoxDecoration(),
+                                  textEditingController: dropOffController,
+                                  googleAPIKey: "AIzaSyDAqZY75SGfTJgzPNZJ_JAQSn_RrS4WWFE",
+                                  inputDecoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -236,9 +278,13 @@ class _TaxiBookingDetailsWhereWhenState
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    /*prefixIcon: Row(
+                                    prefixIconConstraints: const BoxConstraints(maxWidth: 44),
+                                    prefixIcon: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        SizedBox(width: 15),
+                                        const SizedBox(width: 15),
                                         CircleAvatar(
                                           backgroundColor: AppColor.mainColor,
                                           radius: 8,
@@ -246,32 +292,45 @@ class _TaxiBookingDetailsWhereWhenState
                                             backgroundColor: AppColor.scaffoldBackground,
                                             radius: 6,
                                           ),
-                                        )
+                                        ),
+                                        const SizedBox(width: 5),
                                       ],
-                                    ),*/
+                                    ),
                                     filled: true,
                                     fillColor: AppColor.textFormFieldBackground,
                                     labelText: 'Drop-off address',
                                   ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'please fill this field';
+                                  debounceTime: 800,
+                                  countries: const ["fr"],
+                                  isLatLngRequired: true,
+                                  getPlaceDetailWithLatLng: (Prediction prediction) async {
+                                    modelView.setDropOffAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                  },
+                                  itemClick: (Prediction prediction) {
+                                    dropOffController.text = prediction.description.toString();
+                                    dropOffController.selection = TextSelection.fromPosition(
+                                        TextPosition(offset: prediction.description!.length));
+                                    modelView.setDropOffAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                  },
+                                  itemBuilder: (context, index, Prediction prediction) {
+                                    if (prediction.types!.contains("country")) {
+                                      return const SizedBox();
                                     }
-                                    return null;
+                                    return Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.star_border, color: Colors.grey),
+                                          const SizedBox(
+                                            width: 7,
+                                          ),
+                                          Expanded(child: Text(prediction.description ?? ""))
+                                        ],
+                                      ),
+                                    );
                                   },
-                                  onChanged: (value) {
-                                    modelView.setDropOffAddress(value);
-                                  },
-                                  autofocus: false,
-                                  autofillHints: const [
-                                    AutofillHints.fullStreetAddress,
-                                    AutofillHints
-                                        .postalAddressExtendedPostalCode,
-                                    AutofillHints.addressCityAndState
-                                  ],
-                                  textInputAction: TextInputAction.done,
-                                  obscureText: false,
-                                  keyboardType: TextInputType.streetAddress,
+                                  seperatedBuilder: const Divider(),
+                                  isCrossBtnShown: true,
                                 ),
                               ),
                             ],
@@ -404,70 +463,80 @@ class _TaxiBookingDetailsWhereWhenState
                                     Expanded(
                                       child: Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 12),
-                                        child: DropdownButtonFormField<String>(
-                                          items: times
-                                              .map<DropdownMenuItem<String>>(
-                                                  (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius:
+                                        const EdgeInsets.only(left: 12),
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            FocusScope.of(context).requestFocus(
+                                                FocusNode()); // Remove focus from the text field
+                                            await selectTime(
+                                                context); // Show the date picker
+                                          },
+                                          child: AbsorbPointer(
+                                            child: TextFormField(
+                                              controller: timeController,
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
                                                   BorderRadius.circular(8),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                color: Colors.grey,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColor.mainColor,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                color: Colors.red,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            focusedErrorBorder:
+                                                ),
+                                                enabledBorder:
                                                 OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                color: Colors.red,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
+                                                  borderSide: const BorderSide(
+                                                    color: Colors.grey,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius:
                                                   BorderRadius.circular(8),
+                                                ),
+                                                focusedBorder:
+                                                OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: AppColor.mainColor,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius:
+                                                  BorderRadius.circular(8),
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                    color: Colors.red,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius:
+                                                  BorderRadius.circular(8),
+                                                ),
+                                                focusedErrorBorder:
+                                                OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                    color: Colors.red,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius:
+                                                  BorderRadius.circular(8),
+                                                ),
+                                                labelText: 'Time',
+                                                suffixIcon: const Icon(
+                                                  Icons.watch_later_outlined,
+                                                  color: Colors.grey,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'please fill this field';
+                                                }
+                                                return null;
+                                              },
+                                              autofocus: false,
+                                              autofillHints: const [],
+                                              textInputAction:
+                                              TextInputAction.next,
+                                              obscureText: false,
+                                              keyboardType:
+                                              TextInputType.datetime,
                                             ),
-                                            labelText: 'Time',
                                           ),
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'please fill this field';
-                                            }
-                                            return null;
-                                          },
-                                          onChanged: (value) {
-                                            context
-                                                .read<
-                                                    TaxiBookingDetailsViewModel>()
-                                                .setTime(value!);
-                                          },
-                                          autofocus: false,
                                         ),
                                       ),
                                     ),

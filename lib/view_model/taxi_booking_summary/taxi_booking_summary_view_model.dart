@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taxi_booking/model/taxi_booking_details/taxi_booking_details_model.dart';
 import 'package:taxi_booking/model/taxi_booking_summary/taxi_booking_summary_model.dart';
+import 'package:taxi_booking/services/local_services/local_services.dart';
+import 'package:taxi_booking/services/network_services/network_services.dart';
 
 class TaxiBookingSummaryViewModel extends Cubit<TaxiBookingSummaryModel> {
   TaxiBookingSummaryViewModel() : super(TaxiBookingSummaryModel());
@@ -84,5 +87,30 @@ class TaxiBookingSummaryViewModel extends Cubit<TaxiBookingSummaryModel> {
       gender: state.gender,
       fullName: fullName,
     ));
+  }
+
+  Future<void> updatePrice (TaxiBookingDetailsModel taxiBookingDetailsModel) async {
+    Map<String, dynamic> pricesPolicy = await NetworkServices.grtTaxiPricesPolicy(taxiBookingDetailsModel);
+    int price = LocalServices.calculateTaxiPrice(taxiBookingDetailsModel, pricesPolicy);
+
+    emit(TaxiBookingSummaryModel(
+      totalPrice: price,
+      promoCode: state.promoCode,
+      discount: state.discount,
+      inVoice: state.inVoice,
+      individual: state.individual,
+      companyName: state.companyName,
+      gender: state.gender,
+      fullName: state.fullName,
+    ));
+  }
+
+  Future<bool> requestTaxi (TaxiBookingDetailsModel taxiBookingDetailsModel) async {
+    Map<String, dynamic> returnMap = await NetworkServices.requestTaxi(taxiBookingDetailsModel, state);
+    if(returnMap['id'] != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

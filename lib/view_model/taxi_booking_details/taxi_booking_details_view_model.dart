@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taxi_booking/model/taxi_booking_details/taxi_booking_details_model.dart';
 
@@ -10,10 +11,14 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
     emit(state);
   }
 
-  void setPickUpAddress (String address) {
+  void setPickUpAddress (String address, double lat, double lng) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: address,
+      pickUpLat: lat,
+      pickUpLng: lng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -41,10 +46,14 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
     ));
   }
 
-  void setDropOffAddress (String address) {
+  void setDropOffAddress (String address, double lat, double lng) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: address,
+      dropOffLat: lat,
+      dropOffLng: lng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -75,7 +84,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setDate (DateTime date) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -103,10 +116,14 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
     ));
   }
 
-  void setTime (String time) {
+  void setTime (TimeOfDay time) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: time,
       paymentMethod: state.paymentMethod,
@@ -137,7 +154,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setPaymentMethod (String method) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: method,
@@ -168,7 +189,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setVehicleType (String type) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -196,14 +221,14 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
     ));
   }
 
-  String? getVehicleType () {
-    return state.vehicleType;
-  }
-
   void setFullName (String name) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -234,7 +259,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setEmail (String email) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -265,7 +294,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setPhoneNumber (String phone) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -296,7 +329,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setRoomNumber (String roomNumber) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -327,7 +364,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setAdultsCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -358,7 +399,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setChildrenCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -389,7 +434,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setInfantsCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -420,7 +469,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setPassengerComment (String comment) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -451,7 +504,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setBigLuggagesCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -482,7 +539,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setMediumLuggagesCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -513,7 +574,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setSmallLuggagesCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -544,7 +609,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setLuggagesComment (String comment) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -575,7 +644,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setSurfboardCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -606,7 +679,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setSkiCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -637,7 +714,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setGolfCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -668,7 +749,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setBikeCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -699,7 +784,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setSpecialLuggagesComment (String comment) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -730,7 +819,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setDogCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -761,7 +854,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setCatCount (int count) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
@@ -792,7 +889,11 @@ class TaxiBookingDetailsViewModel extends Cubit<TaxiBookingDetailsModel> {
   void setPetComment (String comment) {
     emit(TaxiBookingDetailsModel(
       pickUpAddress: state.pickUpAddress,
+      pickUpLat: state.pickUpLat,
+      pickUpLng: state.pickUpLng,
       dropOffAddress: state.dropOffAddress,
+      dropOffLat: state.dropOffLat,
+      dropOffLng: state.dropOffLng,
       date: state.date,
       time: state.time,
       paymentMethod: state.paymentMethod,
