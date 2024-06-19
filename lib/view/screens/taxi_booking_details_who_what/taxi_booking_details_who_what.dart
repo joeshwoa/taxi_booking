@@ -67,7 +67,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
   int catCount = 0;
   TextEditingController petCommentController = TextEditingController();
 
-  late final TaxiBookingDetailsViewModel modelView;
+  late final TaxiBookingDetailsViewModel viewModel;
 
   @override
   void initState() {
@@ -94,9 +94,9 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        modelView = TaxiBookingDetailsViewModel();
-        modelView.setState(widget.state);
-        return modelView;
+        viewModel = TaxiBookingDetailsViewModel();
+        viewModel.setState(widget.state);
+        return viewModel;
       },
       child: BlocConsumer<TaxiBookingDetailsViewModel, TaxiBookingDetailsModel>(
         listener: (context, state) {},
@@ -176,7 +176,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             splashColor: Colors.transparent,
                                             onTap: () {
                                               setState(() {
-                                                modelView.setVehicleType(
+                                                viewModel.setVehicleType(
                                                     vehicleTypes[i]);
                                               });
                                             },
@@ -187,7 +187,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                                   borderRadius:
                                                       BorderRadius.circular(8),
                                                   border: Border.all(
-                                                    color: modelView
+                                                    color: viewModel
                                                                 .state.vehicleType ==
                                                             vehicleTypes[i]
                                                         ? AppColor.mainColor
@@ -432,7 +432,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                       return null;
                                     },
                                     onChanged: (value) {
-                                      modelView.setFullName(value);
+                                      viewModel.setFullName(value);
                                     },
                                     autofocus: false,
                                     autofillHints: const [AutofillHints.name],
@@ -503,7 +503,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                       return null;
                                     },
                                     onChanged: (value) {
-                                      modelView.setEmail(value);
+                                      viewModel.setEmail(value);
                                     },
                                     autofocus: false,
                                     autofillHints: const [AutofillHints.email],
@@ -677,7 +677,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                               return null;
                                             },
                                             onChanged: (value) {
-                                              modelView.setPhoneNumber(
+                                              viewModel.setPhoneNumber(
                                                   '+${selectedCountry?.phoneCode}$value');
                                             },
                                             inputFormatters: [
@@ -765,7 +765,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                       return null;
                                     },
                                     onChanged: (value) {
-                                      modelView.setRoomNumber(value);
+                                      viewModel.setRoomNumber(value);
                                     },
                                     autofocus: false,
                                     autofillHints: const [],
@@ -838,7 +838,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               adultsCount--;
                                             });
-                                            modelView
+                                            viewModel
                                                 .setAdultsCount(adultsCount);
                                           }
                                         },
@@ -879,7 +879,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             adultsCount++;
                                           });
-                                          modelView.setAdultsCount(adultsCount);
+                                          viewModel.setAdultsCount(adultsCount);
                                         },
                                         icon: Container(
                                           height: 40,
@@ -954,7 +954,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               childrenCount--;
                                             });
-                                            modelView.setChildrenCount(
+                                            viewModel.setChildrenCount(
                                                 childrenCount);
                                           }
                                         },
@@ -995,7 +995,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             childrenCount++;
                                           });
-                                          modelView
+                                          viewModel
                                               .setChildrenCount(childrenCount);
                                         },
                                         icon: Container(
@@ -1071,7 +1071,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               infantsCount--;
                                             });
-                                            modelView
+                                            viewModel
                                                 .setInfantsCount(infantsCount);
                                           }
                                         },
@@ -1112,7 +1112,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             infantsCount++;
                                           });
-                                          modelView
+                                          viewModel
                                               .setInfantsCount(infantsCount);
                                         },
                                         icon: Container(
@@ -1193,7 +1193,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                     minLines: 3,
                                     maxLines: 10,
                                     onChanged: (value) {
-                                      modelView.setPassengerComment(value);
+                                      viewModel.setPassengerComment(value);
                                     },
                                     autofocus: false,
                                     autofillHints: const [],
@@ -1264,7 +1264,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               bigLuggagesCount--;
                                             });
-                                            modelView.setBigLuggagesCount(
+                                            viewModel.setBigLuggagesCount(
                                                 bigLuggagesCount);
                                           }
                                         },
@@ -1305,7 +1305,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             bigLuggagesCount++;
                                           });
-                                          modelView.setBigLuggagesCount(
+                                          viewModel.setBigLuggagesCount(
                                               bigLuggagesCount);
                                         },
                                         icon: Container(
@@ -1381,7 +1381,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               mediumLuggagesCount--;
                                             });
-                                            modelView.setMediumLuggagesCount(
+                                            viewModel.setMediumLuggagesCount(
                                                 mediumLuggagesCount);
                                           }
                                         },
@@ -1422,7 +1422,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             mediumLuggagesCount++;
                                           });
-                                          modelView.setMediumLuggagesCount(
+                                          viewModel.setMediumLuggagesCount(
                                               mediumLuggagesCount);
                                         },
                                         icon: Container(
@@ -1498,7 +1498,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               smallLuggagesCount--;
                                             });
-                                            modelView.setSmallLuggagesCount(
+                                            viewModel.setSmallLuggagesCount(
                                                 smallLuggagesCount);
                                           }
                                         },
@@ -1539,7 +1539,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             smallLuggagesCount++;
                                           });
-                                          modelView.setSmallLuggagesCount(
+                                          viewModel.setSmallLuggagesCount(
                                               smallLuggagesCount);
                                         },
                                         icon: Container(
@@ -1620,7 +1620,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                     minLines: 3,
                                     maxLines: 10,
                                     onChanged: (value) {
-                                      modelView.setLuggagesComment(value);
+                                      viewModel.setLuggagesComment(value);
                                     },
                                     autofocus: false,
                                     autofillHints: const [],
@@ -1673,7 +1673,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               surfboardCount--;
                                             });
-                                            modelView.setSurfboardCount(
+                                            viewModel.setSurfboardCount(
                                                 surfboardCount);
                                           }
                                         },
@@ -1714,7 +1714,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             surfboardCount++;
                                           });
-                                          modelView.setSurfboardCount(
+                                          viewModel.setSurfboardCount(
                                               surfboardCount);
                                         },
                                         icon: Container(
@@ -1772,7 +1772,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               skiCount--;
                                             });
-                                            modelView.setSkiCount(skiCount);
+                                            viewModel.setSkiCount(skiCount);
                                           }
                                         },
                                         icon: Container(
@@ -1812,7 +1812,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             skiCount++;
                                           });
-                                          modelView.setSkiCount(skiCount);
+                                          viewModel.setSkiCount(skiCount);
                                         },
                                         icon: Container(
                                           height: 40,
@@ -1869,7 +1869,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               golfCount--;
                                             });
-                                            modelView.setGolfCount(golfCount);
+                                            viewModel.setGolfCount(golfCount);
                                           }
                                         },
                                         icon: Container(
@@ -1909,7 +1909,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             golfCount++;
                                           });
-                                          modelView.setGolfCount(golfCount);
+                                          viewModel.setGolfCount(golfCount);
                                         },
                                         icon: Container(
                                           height: 40,
@@ -1966,7 +1966,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               bikeCount--;
                                             });
-                                            modelView.setBikeCount(bikeCount);
+                                            viewModel.setBikeCount(bikeCount);
                                           }
                                         },
                                         icon: Container(
@@ -2006,7 +2006,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             bikeCount++;
                                           });
-                                          modelView.setBikeCount(bikeCount);
+                                          viewModel.setBikeCount(bikeCount);
                                         },
                                         icon: Container(
                                           height: 40,
@@ -2087,7 +2087,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                     minLines: 3,
                                     maxLines: 10,
                                     onChanged: (value) {
-                                      modelView
+                                      viewModel
                                           .setSpecialLuggagesComment(value);
                                     },
                                     autofocus: false,
@@ -2141,7 +2141,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               dogCount--;
                                             });
-                                            modelView.setDogCount(dogCount);
+                                            viewModel.setDogCount(dogCount);
                                           }
                                         },
                                         icon: Container(
@@ -2181,7 +2181,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             dogCount++;
                                           });
-                                          modelView.setDogCount(dogCount);
+                                          viewModel.setDogCount(dogCount);
                                         },
                                         icon: Container(
                                           height: 40,
@@ -2238,7 +2238,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                             setState(() {
                                               catCount--;
                                             });
-                                            modelView.setCatCount(catCount);
+                                            viewModel.setCatCount(catCount);
                                           }
                                         },
                                         icon: Container(
@@ -2278,7 +2278,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                           setState(() {
                                             catCount++;
                                           });
-                                          modelView.setCatCount(catCount);
+                                          viewModel.setCatCount(catCount);
                                         },
                                         icon: Container(
                                           height: 40,
@@ -2358,7 +2358,7 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                                     minLines: 3,
                                     maxLines: 10,
                                     onChanged: (value) {
-                                      modelView.setPetComment(value);
+                                      viewModel.setPetComment(value);
                                     },
                                     autofocus: false,
                                     autofillHints: const [],
@@ -2382,12 +2382,12 @@ class _TaxiBookingDetailsWhoWhatState extends State<TaxiBookingDetailsWhoWhat> {
                             : 'View Prices',
                         onTap: () {
                           if (formKey.currentState!.validate() &&
-                              modelView.state.vehicleType != null) {
+                              viewModel.state.vehicleType != null) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => TaxiBookingSummary(
-                                    taxiBookingDetailsModel: modelView.state,
+                                    taxiBookingDetailsModel: viewModel.state,
                                   ),
                                 ));
                           }

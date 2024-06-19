@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
@@ -29,7 +30,7 @@ class _TaxiBookingDetailsWhereWhenState
 
   List<String> methods = ['Cash', 'Credit online'];
 
-  late final TaxiBookingDetailsViewModel modelView;
+  late final TaxiBookingDetailsViewModel viewModel;
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -45,7 +46,7 @@ class _TaxiBookingDetailsWhereWhenState
             .toIso8601String()
             .split('T')
             .first; // Update the text field
-        modelView.setDate(pickedDate); // Update the model view
+        viewModel.setDate(pickedDate); // Update the model view
       });
     }
   }
@@ -62,7 +63,7 @@ class _TaxiBookingDetailsWhereWhenState
             .toString()
             .split('(')[1]
             .split(')')[0]; // Update the text field
-        modelView.setTime(pickedTime); // Update the model view
+        viewModel.setTime(pickedTime); // Update the model view
       });
     }
   }
@@ -71,8 +72,8 @@ class _TaxiBookingDetailsWhereWhenState
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        modelView = TaxiBookingDetailsViewModel();
-        return modelView;
+        viewModel = TaxiBookingDetailsViewModel();
+        return viewModel;
       },
       child: BlocConsumer<TaxiBookingDetailsViewModel, TaxiBookingDetailsModel>(
         listener: (context, state) {},
@@ -150,7 +151,7 @@ class _TaxiBookingDetailsWhereWhenState
                                   showError: true,
                                   boxDecoration: const BoxDecoration(),
                                   textEditingController: pickUpController,
-                                  googleAPIKey: "AIzaSyDAqZY75SGfTJgzPNZJ_JAQSn_RrS4WWFE",
+                                  googleAPIKey: dotenv.env['GOOGLE_API_KEY']!,
                                   inputDecoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
@@ -209,13 +210,13 @@ class _TaxiBookingDetailsWhereWhenState
                                   countries: const ["fr"],
                                   isLatLngRequired: true,
                                   getPlaceDetailWithLatLng: (Prediction prediction) async {
-                                    modelView.setPickUpAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                    viewModel.setPickUpAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
                                   },
                                   itemClick: (Prediction prediction) {
                                     pickUpController.text = prediction.description.toString();
                                     pickUpController.selection = TextSelection.fromPosition(
                                         TextPosition(offset: prediction.description!.length));
-                                    modelView.setPickUpAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                    viewModel.setPickUpAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
                                   },
                                   itemBuilder: (context, index, Prediction prediction) {
                                     if (prediction.types!.contains("country")) {
@@ -304,13 +305,13 @@ class _TaxiBookingDetailsWhereWhenState
                                   countries: const ["fr"],
                                   isLatLngRequired: true,
                                   getPlaceDetailWithLatLng: (Prediction prediction) async {
-                                    modelView.setDropOffAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                    viewModel.setDropOffAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
                                   },
                                   itemClick: (Prediction prediction) {
                                     dropOffController.text = prediction.description.toString();
                                     dropOffController.selection = TextSelection.fromPosition(
                                         TextPosition(offset: prediction.description!.length));
-                                    modelView.setDropOffAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
+                                    viewModel.setDropOffAddress(prediction.description??'', double.parse(prediction.lat ?? "0",), double.parse(prediction.lng ?? "0",));
                                   },
                                   itemBuilder: (context, index, Prediction prediction) {
                                     if (prediction.types!.contains("country")) {
@@ -595,7 +596,7 @@ class _TaxiBookingDetailsWhereWhenState
                                     return null;
                                   },
                                   onChanged: (value) {
-                                    modelView.setPaymentMethod(value!);
+                                    viewModel.setPaymentMethod(value!);
                                   },
                                   autofocus: false,
                                 ),
@@ -618,7 +619,7 @@ class _TaxiBookingDetailsWhereWhenState
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       TaxiBookingDetailsWhoWhat(
-                                    state: modelView.state,
+                                    state: viewModel.state,
                                   ),
                                 ));
                           }

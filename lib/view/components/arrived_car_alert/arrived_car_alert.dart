@@ -45,7 +45,7 @@ class ArrivedCarAlert extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 197,
             width: 197,
           ),

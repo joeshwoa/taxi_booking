@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:taxi_booking/generated/assets.dart';
 import 'package:taxi_booking/model/taxi_booking_details/taxi_booking_details_model.dart';
 import 'package:taxi_booking/model/taxi_booking_summary/taxi_booking_summary_model.dart';
 import 'package:taxi_booking/shared/colors.dart';
@@ -25,7 +26,7 @@ class TaxiBookingSummary extends StatefulWidget {
 }
 
 class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
-  late final TaxiBookingSummaryViewModel modelView;
+  late final TaxiBookingSummaryViewModel viewModel;
 
   TextEditingController promoCodeController = TextEditingController();
 
@@ -35,9 +36,9 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        modelView = TaxiBookingSummaryViewModel();
-        modelView.updatePrice(widget.taxiBookingDetailsModel);
-        return modelView;
+        viewModel = TaxiBookingSummaryViewModel();
+        viewModel.updatePrice(widget.taxiBookingDetailsModel);
+        return viewModel;
       },
       child: BlocConsumer<TaxiBookingSummaryViewModel, TaxiBookingSummaryModel>(
         listener: (context, state) {},
@@ -171,7 +172,7 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                                       ),
                                     ),
                                     Text(
-                                      '${(modelView.state.totalPrice??0).toString()} €',
+                                      '${(viewModel.state.totalPrice??0).toString()} €',
                                       style: GoogleFonts.poppins(
                                         color: AppColor.mainColor,
                                         fontSize: 20,
@@ -675,7 +676,7 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                                       hintText: 'Enter Promo Code'
                                     ),
                                     onChanged: (value) {
-                                      modelView.setPromoCode(value);
+                                      viewModel.setPromoCode(value);
                                     },
                                     autofocus: false,
                                     autofillHints: const [],
@@ -733,7 +734,7 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                               ),
                             ),
                             Text(
-                              '-${(modelView.state.discount??0).toString()} €',
+                              '-${(viewModel.state.discount??0).toString()} €',
                               style: GoogleFonts.poppins(
                                 color: AppColor.secondaryFontColor,
                                 fontSize: 20,
@@ -759,7 +760,7 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                               ),
                             ),
                             Text(
-                              '${((modelView.state.totalPrice??0)-(modelView.state.discount??0)).toString()} €',
+                              '${((viewModel.state.totalPrice??0)-(viewModel.state.discount??0)).toString()} €',
                               style: GoogleFonts.poppins(
                                 color: AppColor.mainColor,
                                 fontSize: 24,
@@ -791,9 +792,9 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                               children: [
                                 Radio(
                                   value: false,
-                                  groupValue: modelView.state.inVoice??false,
+                                  groupValue: viewModel.state.inVoice??false,
                                   onChanged: (value) {
-                                    modelView.setInVoice(value??false);
+                                    viewModel.setInVoice(value??false);
                                   },
                                 ),
                                 Text(
@@ -813,7 +814,7 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                               children: [
                                 Radio(
                                   value: true,
-                                  groupValue: modelView.state.inVoice??false,
+                                  groupValue: viewModel.state.inVoice??false,
                                   onChanged: (value) {
                                     showBottomSheet();
                                   },
@@ -846,12 +847,12 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                        sending = true;
                      });
 
-                     bool acceptedRequest = await modelView.requestTaxi(widget.taxiBookingDetailsModel);
+                     bool acceptedRequest = await viewModel.requestTaxi(widget.taxiBookingDetailsModel);
 
                      if (acceptedRequest) {
                        if (context.mounted) {
                          showDialog(context: context, builder: (context) => AppAlert(
-                           imagePath: 'assets/images/alert_car.png',
+                           imagePath: Assets.imagesAlertCar,
                            imageType: ImageType.static,
                            title: 'Taxi Request Sent Successfully',
                            message: 'We have received your request and will let you know when the driver has reached your pick-up point( Subject to Availability )\nThank you for choosing our service',
@@ -864,7 +865,7 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
                      } else {
                        if (context.mounted) {
                          showDialog(context: context, builder: (context) => AppAlert(
-                           imagePath: 'assets/gif/sad_imoji.png',
+                           imagePath: Assets.gifsSadImoji,
                            imageType: ImageType.gif,
                            title: 'No car available now',
                            message: 'We regret to inform you that there are currently no vehicles available for the requested itinerary. Please book your next transfer in advance.',
@@ -913,15 +914,15 @@ class _TaxiBookingSummaryState extends State<TaxiBookingSummary> {
         return SummaryBottomSheet(
           onConfirm: (bool individual, String companyName, String gender, String fullName) {
             Navigator.of(context).pop();
-            modelView.setIndividual(individual);
-            modelView.setCompanyName(companyName);
-            modelView.setGender(gender);
-            modelView.setFullName(fullName);
-            modelView.setInVoice(true);
+            viewModel.setIndividual(individual);
+            viewModel.setCompanyName(companyName);
+            viewModel.setGender(gender);
+            viewModel.setFullName(fullName);
+            viewModel.setInVoice(true);
           },
           onCancel: () {
             Navigator.of(context).pop();
-            modelView.setInVoice(false);
+            viewModel.setInVoice(false);
           },
         );
       },

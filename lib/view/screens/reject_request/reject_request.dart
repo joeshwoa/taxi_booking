@@ -2,6 +2,7 @@ import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taxi_booking/generated/assets.dart';
 import 'package:taxi_booking/shared/colors.dart';
 import 'package:taxi_booking/view/components/error_button/error_button.dart';
 import 'package:taxi_booking/view/components/main_button/main_button.dart';
@@ -75,7 +76,7 @@ class _RejectRequestState extends State<RejectRequest> with TickerProviderStateM
                     Padding(
                       padding: const EdgeInsets.only(top: 20, right: 24, left: 24),
                       child: Gif(
-                        image: const AssetImage("assets/gifs/sad_imoji.gif"),
+                        image: const AssetImage(Assets.gifsSadImoji),
                         controller: controller, // if duration and fps is null, original gif fps will be used.
                         autostart: Autostart.loop,
                       ),

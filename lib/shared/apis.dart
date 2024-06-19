@@ -4,4 +4,6 @@ class APIs {
 
   static String getTaxiPrice = '$shuttleURL/ride/price';
   static String requestTaxi = '$baseURL/taxi/drives/';
+  static String getAccessToken = '$baseURL/customers/login/';
+  static String login = '$baseURL/customers/login/';
 }

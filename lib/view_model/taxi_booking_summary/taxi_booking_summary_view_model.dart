@@ -106,7 +106,8 @@ class TaxiBookingSummaryViewModel extends Cubit<TaxiBookingSummaryModel> {
   }
 
   Future<bool> requestTaxi (TaxiBookingDetailsModel taxiBookingDetailsModel) async {
-    Map<String, dynamic> returnMap = await NetworkServices.requestTaxi(taxiBookingDetailsModel, state);
+    String accessToken = LocalServices.getAccessToken();
+    Map<String, dynamic> returnMap = await NetworkServices.requestTaxi(taxiBookingDetailsModel, state, accessToken);
     if(returnMap['id'] != null) {
       return true;
     } else {

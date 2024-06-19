@@ -1,4 +1,5 @@
 import 'package:taxi_booking/model/taxi_booking_details/taxi_booking_details_model.dart';
+import 'package:taxi_booking/shared/local_storage_manger.dart';
 
 class LocalServices {
 
@@ -24,4 +25,16 @@ class LocalServices {
     return price.round();
   }
 
+  static void storeAccessToken (Map<String, dynamic> tokensMap) {
+    LocalStorageManger.putData(key: 'accessToken', value: tokensMap['access']);
+  }
+
+  static String getAccessToken () {
+    return LocalStorageManger.getData(key: 'accessToken');
+  }
+
+  static void rememberUser (String email, String password) {
+    LocalStorageManger.putData(key:'email', value: email);
+    LocalStorageManger.putData(key:'password', value: password);
+  }
 }
